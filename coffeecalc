@@ -1,0 +1,19 @@
+#!/usr/bin/env python
+
+import argparse
+import sys
+
+from settings import CURRENCY, CUPS_PER_DAY
+
+parser = argparse.ArgumentParser(description='Calculate your coffee share.')
+parser.add_argument('total_amount', type=float, help='a global factor')
+parser.add_argument('-f', dest='factor', default=1.0, type=float, help='a global factor')
+args = parser.parse_args()
+
+total_cups = 0
+for cups in CUPS_PER_DAY.values():
+    total_cups += cups
+    
+for person, cups in CUPS_PER_DAY.items():
+    amount = args.total_amount * args.factor * cups / total_cups
+    print '%s %.2f %s' % (person.ljust(12), amount, CURRENCY)
